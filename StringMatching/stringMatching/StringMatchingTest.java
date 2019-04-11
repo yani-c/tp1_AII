@@ -25,7 +25,22 @@ class StringMatchingTest {
 		String pattern="sera un";
 		System.out.println(StringMatching.match(text,pattern));
 	}
+	//que aparezca mas de una vez a ver si devuelve el primero
+	
+	@Test
+	void testMatch4() { //cuando aparece en el centro
+		String text="eeei";
+		String pattern="eei";
+		System.out.println(StringMatching.match(text,pattern));
+	}
 
+	@Test
+	void testMatch5() { //cuando aparece en el centro
+		String text="hola buen dia";
+		String pattern=" ";
+		System.out.println(StringMatching.match(text,pattern));
+	}
+	
 	@Test
 	void testMatchKmp() {
 		fail("Not yet implemented");

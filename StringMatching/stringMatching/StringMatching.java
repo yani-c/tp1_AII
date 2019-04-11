@@ -12,26 +12,29 @@ public class StringMatching {
 		//convierte todo el texto y la palabra ingresada en minuscula
 		text.toLowerCase();
 		pattern.toLowerCase();
-		//comienza
+		//verifica si el texto es mas corto que la cadena buscada
 		if(text.length()<pattern.length()) {
-			return -1;
+			return -1; 
 		}
-		int result=-1;
+		int indexAux; //indice para comparar la cadena con el texto, dentro del segundo for
+		int result=-1; //inicializacion
 		int indexPattern=0;
-		for(int indexText=0;indexText<text.length() && indexPattern<pattern.length();indexText++) {
-			if(text.charAt(indexText) == (pattern.charAt(indexPattern))) {
-				if(indexPattern==0) {
-					result=indexText;
-					
+		for(int indexText=0;indexText<text.length();indexText++) {
+			indexAux=indexText; //inicializo la variable para usar en el for
+			result=indexText;  //inicializo suponiendo que es donde comienza la cadena que busco
+			for(indexPattern=0;indexPattern<pattern.length() && result!=-1;indexPattern++) {
+				if(text.charAt(indexAux) == (pattern.charAt(indexPattern))) {
+					indexAux++; //avanzo en el texto si los caracteres son iguales
 				}
-				indexPattern++;
+				else {
+					result=-1; //si encuentro algun caracter distinto, deja de comparar la cadena
+				}
 			}
-			else {
-				result=-1;
-				indexPattern=0;
+			if(result!=-1) {//si salio del for y no encontro algun caracter distinto
+				return result; //devuelvo el indice donde comienzan a coincidir la cadena con el texto
 			}
 		}
-		return result; //resolver el problema
+		return result; //si recorrio todo el texto y no encontro la cadena buscada
 	}
 	
 	
