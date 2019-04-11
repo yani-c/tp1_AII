@@ -1,3 +1,4 @@
+package stringMatching;
 
 public class StringMatching {
 	/**
@@ -8,8 +9,31 @@ public class StringMatching {
 	 * o -1 en caso que no se encuentre. 
 	 */
 	public static int match (String text, String pattern) {
-		return -1; //resolver el problema
+		//convierte todo el texto y la palabra ingresada en minuscula
+		text.toLowerCase();
+		pattern.toLowerCase();
+		//comienza
+		if(text.length()<pattern.length()) {
+			return -1;
+		}
+		int result=-1;
+		int indexPattern=0;
+		for(int indexText=0;indexText<text.length() && indexPattern<pattern.length();indexText++) {
+			if(text.charAt(indexText) == (pattern.charAt(indexPattern))) {
+				if(indexPattern==0) {
+					result=indexText;
+					
+				}
+				indexPattern++;
+			}
+			else {
+				result=-1;
+				indexPattern=0;
+			}
+		}
+		return result; //resolver el problema
 	}
+	
 	
 	/**
 	 * Calcula String Matching usando Knuth-Morris-Pratt.
