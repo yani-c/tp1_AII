@@ -9,9 +9,6 @@ public class StringMatching {
 	 * o -1 en caso que no se encuentre. 
 	 */
 	public static int match (String text, String pattern) {
-		//convierte todo el texto y la palabra ingresada en minuscula
-		text.toLowerCase();
-		pattern.toLowerCase();
 		//verifica si el texto es mas corto que la cadena buscada
 		if(text.length()<pattern.length()) {
 			return -1; 
@@ -46,6 +43,56 @@ public class StringMatching {
 	 * o -1 en caso que no se encuentre.
 	 */
 	public static int matchKmp(String text, String pattern) {
+		int[] next= GenerateSuffixArray(pattern);
+		int sizeText= text.length();
+		int sizePattern= pattern.length();
+		int indexText= 0;
+		int indexPattern= 0;
+		while(indexText<sizeText){
+			if(pattern.charAt(indexPattern) == text.charAt(indexText)){
+				indexPattern++;
+				indexText++;
+			}
+			if(indexPattern == sizePattern){
+				int modulo=-1;
+				if(indexText<=indexPattern) modulo=indexPattern-indexText;
+				if(indexPattern<indexText) modulo= indexText-indexPattern;
+				return modulo;
+			}
+			else if(indexText < sizeText && pattern.charAt(indexPattern)!=text.charAt(indexText)){
+				if(indexPattern != 0){
+					indexPattern = next[indexPattern-1];	
+				}
+				else{
+					indexText++;
+				}
+			}
+		}
 		return -1;
 	}
+	
+	//Auxiliar para matchKmp
+	public static int[] GenerateSuffixArray(String Pattern){
+		int i= 1;
+		int j= 0;
+		int sizePattern= Pattern.length();
+		final int N= sizePattern; 
+		int[] next= new int[N];
+		while(i<sizePattern){
+	   	 	if(Pattern.charAt(i) == Pattern.charAt(j)){
+		 		next[i]= j + 1;
+		        j= j + 1;
+		        i= i + 1;
+			}
+		    else if(j != 0){
+		            j= next[j-1];
+			}
+		    else{
+				next[i]= 0;
+				i= i + 1;
+			}
+		}
+		return next;
+	}
+	
 }
