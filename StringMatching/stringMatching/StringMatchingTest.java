@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 class StringMatchingTest {
 
+
 	@Test
 	void testMatch1() { //cuando la palabra es mas grande que el texto
 		String text="hoy curse";
@@ -60,7 +61,6 @@ class StringMatchingTest {
 		System.out.println(StringMatching.match(text,pattern));
 	}//Se espera que devuelva 283
 	
-	
 	@Test
 	void testMatchKmp1() { //cuando la palabra es mas grande que el texto
 		String text="hoy curse";
@@ -116,4 +116,5 @@ class StringMatchingTest {
 		String pattern="1954";
 		System.out.println(StringMatching.matchKmp(text,pattern));
 	}//Se espera que devuelva 283
+
 }

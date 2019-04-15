@@ -43,25 +43,25 @@ public class StringMatching {
 	 * o -1 en caso que no se encuentre.
 	 */
 	public static int matchKmp(String text, String pattern) {
-		int[] next= GenerateSuffixArray(pattern);
+		int[] next= GenerateSuffixArray(pattern);//se inicializa el arreglo "next"
 		int sizeText= text.length();
 		int sizePattern= pattern.length();
-		int indexText= 0;
-		int indexPattern= 0;
-		while(indexText<sizeText){
-			if(pattern.charAt(indexPattern) == text.charAt(indexText)){
+		int indexText= 0;//inicializo indice para recorrer el texto
+		int indexPattern= 0;//iniciaizo indice para recorrer el patron
+		while(indexText<sizeText){//mientras no llegue al final del texto
+			if(pattern.charAt(indexPattern) == text.charAt(indexText)){//si encuentro caracteres iguales
 				indexPattern++;
 				indexText++;
 			}
-			if(indexPattern == sizePattern){
-				int modulo=-1;
-				if(indexText<=indexPattern) modulo=indexPattern-indexText;
-				if(indexPattern<indexText) modulo= indexText-indexPattern;
-				return modulo;
+			if(indexPattern == sizePattern){//si se correspondieron todos los caracteres del patron con alguna sub secuencia del texto
+				int modulo; 
+				if(indexText<=indexPattern)modulo=indexPattern-indexText;
+				else modulo = indexText-indexPattern;
+				return modulo;//devuelvo el modulo de indexText - indexPattern, que seria el indice del texto donde empiezan a coincidir
 			}
-			else if(indexText < sizeText && pattern.charAt(indexPattern)!=text.charAt(indexText)){
-				if(indexPattern != 0){
-					indexPattern = next[indexPattern-1];	
+			else if(indexText < sizeText && pattern.charAt(indexPattern)!=text.charAt(indexText)){//si no corresponden y no llegue al final del texto
+				if(indexPattern != 0){//cuando no estoy al principio del patron
+					indexPattern = next[indexPattern-1];//desplaza el patron tantas posiciones como sea necesario
 				}
 				else{
 					indexText++;
@@ -70,26 +70,29 @@ public class StringMatching {
 		}
 		return -1;
 	}
-	
-	//Auxiliar para matchKmp
+	/**
+	 * Genera el arreglo que guarda las posiciones del patron donde se debe saltar en caso de un error
+	 * @param Pattern patron a comparar
+	 * @returns arreglo cargado con las posiciones a saltar
+	 */
 	public static int[] GenerateSuffixArray(String Pattern){
-		int i= 1;
-		int j= 0;
+		int indexMove= 1;//indice para moverse en el patron
+		int indexCompare= 0;//indice para hacer las comparaciones
 		int sizePattern= Pattern.length();
 		final int N= sizePattern; 
-		int[] next= new int[N];
-		while(i<sizePattern){
-	   	 	if(Pattern.charAt(i) == Pattern.charAt(j)){
-		 		next[i]= j + 1;
-		        j= j + 1;
-		        i= i + 1;
+		int[] next= new int[N];//se crea el arreglo
+		while(indexMove<sizePattern){
+	   	 	if(Pattern.charAt(indexMove) == Pattern.charAt(indexCompare)){//si hay un caracter repetido en el patron
+		 		next[indexMove]= indexCompare + 1;//le guardo la posicion siguiente al caracter repetido
+		        indexCompare= indexCompare + 1;
+		        indexMove= indexMove + 1;
 			}
-		    else if(j != 0){
-		            j= next[j-1];
+		    else if(indexCompare != 0){//si hay una discrepancia pero se ya se encontro una coincidencia
+		            indexCompare= next[indexCompare-1];//vuelvo a la posicion donde me indica el arreglo
 			}
-		    else{
-				next[i]= 0;
-				i= i + 1;
+		    else{//si hay discrepancia e indexCompare esta al inicio del patron
+				next[indexMove]= 0;
+				indexMove= indexMove + 1;
 			}
 		}
 		return next;
