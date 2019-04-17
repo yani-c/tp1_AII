@@ -9,37 +9,41 @@ public class LongestRepetition {
 	 * @returns subString de mayor longitud que se repite.
 	 */
 	public static String repetition(String text) {
-		ArrayList<String> arrayOfSubstrings= subStrings(text);
-		int index=0;
-		String maxString="";
-		while(index<arrayOfSubstrings.size()) {
-			if(arrayOfSubstrings.get(index).length() % 2 ==0){
-				String element=arrayOfSubstrings.get(index);
-				String aux=element.substring(element.length()/2, arrayOfSubstrings.size());
+		ArrayList<String> arrayOfSubstrings= subStrings(text);//se crea e inicializa el ArrayList con las subcadenas de text
+		int index=0; //indice del while que nos permite recorrer el ArrayList
+		String maxString=""; //variable que guarda la string maxima que se repite secuencialmente
+		while(index<arrayOfSubstrings.size()) {//mientras no sea el fin del ArrayList
+			if(arrayOfSubstrings.get(index).length() % 2 ==0){//si la subcadena extraida tiene tamaño par
 				boolean equals=true;
-				for(int indexAux=0;indexAux<aux.length() && equals;indexAux++) {
-					//EL FOR SE VA DE RANGO
-					if(!(element.charAt(indexAux) == aux.charAt(indexAux))) {
+				String element=arrayOfSubstrings.get(index);//coloca la sub cadena extraida en element
+				String aux=element.substring(element.length()/2, element.length());//coloca la segunda mitad de element en aux
+				for(int indexAux=0;indexAux<aux.length() && equals;indexAux++) {/*recorre aux y element mientras sus caracteres coincidan hasta que aux se termine*/
+					if(!(element.charAt(indexAux) == aux.charAt(indexAux))) {//si los caracteres de element y aux no coinciden
 						equals=false;
 					}
 				}
-				if(equals) {
-					if(aux.length() > maxString.length()) {
-						maxString=aux;
+				if(equals) {//si aux y la primera mitad de element son iguales
+					if(aux.length() > maxString.length()) {//si encontre una sub cadena mas larga que la que tenia
+						maxString=aux;//la guardo
 					}
 				}
 			}
 			index++;
 		}
-		return maxString;
+		return maxString;//retorno la subcadena mas larga que se repite consecutivamente
 	}
 	
-	//auxiliar para la resolucion de repetition
+	/**
+	 * Calcula todas las sub cadenas de una cadena dada
+	 * @param string cadena a buscar las sub cadenas
+	 * @return result ArrayList con las sub cadenas de string
+	 */
 	public static ArrayList<String> subStrings(String string){
-		ArrayList<String> result= new ArrayList<String>();
-		for(int beginIndex=0;beginIndex<string.length();beginIndex++) {
-			for(int endIndex=beginIndex+1;endIndex<=string.length();endIndex++) {
-				result.add(string.substring(beginIndex, endIndex));
+		ArrayList<String> result= new ArrayList<String>();//se crea el ArrayList
+		for(int beginIndex=0;beginIndex<string.length();beginIndex++) {//se recorre string
+			for(int endIndex=beginIndex+1;endIndex<=string.length();endIndex++) {/*para cada elemento x de string 
+													se calculan los posibles y tal que al extraer lo que hay entre x e y es una subcadena*/
+				result.add(string.substring(beginIndex, endIndex)); //se guarda esta sub cadena en ArrayList
 			}
 		}
 		return result;
