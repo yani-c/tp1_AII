@@ -37,8 +37,15 @@ class LongestRepetitionTest {
 	}//se espera que devuelva "la"
 	
 	@Test
-	void testRepetitionDc() {
-		System.out.println("");
-	}
+	void testRepetition6() {
+		String text="hola que tal hola";
+		System.out.println(LongestRepetition.repetition(text));
+	}//se espera que devuelva ""
+	
+	@Test
+	void testRepetitionDc1() {
+		String text="hola queque tal comocomo estas";
+		System.out.println(LongestRepetition.repetitionDc(text));
+	}//se espera que devuelva como
 
 }
