@@ -55,9 +55,10 @@ public class LongestRepetition {
 	 * @returns subString de mayor longitud que se repite.
 	 */
 	public static String repetitionDc(String text) {
+		repetitions.clear();//limpio el array 
 		find_repetitions(text,0);
 		String max="";
-		for(int i=0;i<repetitions.size();i++) {
+		for(int i=0;i<repetitions.size();i++) {//calculo el maximo de repetitions y lo retorno
 			if(max.length() < repetitions.get(i).length()) {
 				max=repetitions.get(i);
 			}
@@ -69,8 +70,14 @@ public class LongestRepetition {
 	
 	static ArrayList<String> repetitions= new ArrayList<String>();
 	
-	//en la posicion i del arreglo guarda la cant de caracteres iguales a los primeros de s hay desde la posicion i de s
-	public static ArrayList<Integer> z_function(String s){//ERA POR REFENCIA VER QUE HACER
+
+	/**
+	 * En la posicion i del arreglo guarda la cant de caracteres 
+	 * iguales a los primeros de s hay desde la posicion i de s
+	 * @param s string a devolver analizar
+	 * @return array de integer
+	 */
+	public static ArrayList<Integer> z_function(String s){
 		 int n = s.length();
     	 ArrayList<Integer> z = new ArrayList<Integer>();
     	 for(int j=0;j<n;j++) {//inicializo con cero
@@ -78,20 +85,25 @@ public class LongestRepetition {
     	 }
     	for (Integer i = 1, l = 0, r = 0; i < n; i++) {
         	if (i <= r){
-            	z.set(i,Math.min(r-i+1, z.get(i-l)));
+            	z.set(i.intValue(),Math.min(r-i+1, z.get(i.intValue()-l.intValue())));
 			}
-        	while (i + z.get(i) < n && s.charAt(z.get(i)) == s.charAt(i+z.get(i))){
-            	z.set(i,z.get(i)+1);//mientras sigan siendo iguales va sumando un contador
+        	while (i + z.get(i.intValue()) < n && s.charAt(z.get(i.intValue())) == s.charAt(i.intValue()+z.get(i.intValue()))){
+            	z.set(i.intValue(),z.get(i.intValue())+1);//mientras sigan siendo iguales va sumando un contador
 			}
-        	if (i + z.get(i) - 1 > r) {
+        	if (i + z.get(i.intValue()) - 1 > r) {
 				l = i;
-				r = i + z.get(i) - 1;
+				r = i + z.get(i.intValue()) - 1;
         	}
     }
     return z;	
 	}
 
-	
+	/**
+	 * Busca el elemento i del array z, si este existe
+	 * @param z array de enteros donde se va a buscar un elemento
+	 * @param i posicion a buscar en el array
+	 * @return Integer guardado en el array z, en la posicion i (si existe tal posicion en z), sino retorna 0
+	 */
 	public static Integer get_z(ArrayList<Integer> z, int i) {
     	if (0 <= i && i < (Integer)z.size()){//si exista la posicion esta en el arreglo, devuelve lo que hay en esa posicion
        	 return z.get(i);
@@ -101,17 +113,29 @@ public class LongestRepetition {
 		}
 	}
 	
-	//si hay repeticiones, guarda la palabra que se repite en el arreglo
+	/**
+	 * si hay repeticiones, guarda la palabra que se repite en el arreglo
+	 * @param s string donde se busca repeticion
+	 * @param left es true si el centro esta en u (cntro<nu)
+	 * @param cntr posicion donde esta el centro en ese momento
+	 * @param l longitud de posible repeticion
+	 * @param k1 mayor numero tal que los k1 elementos antes de cntro coindicen con los k1 ultimos elementos de u
+	 * @param k2 mayor numero tal que los k2 elementos que comienzan en cntro, coincidan con los primeros k2 elementos de v
+	 */
 	public static void convert_to_repetitions(String s, boolean left, int cntr, int l, int k1, int k2) {
     	for (int l1 = Math.max(1, l - k2); l1 <= Math.min(l, k1); l1++) {
-    	    if (left && l1 == l) break;
-    	    int pos = (left ? cntr - l1 : cntr - l - l1 + 1);
-    	    String aux=s.substring(pos,pos+l);
-			repetitions.add(aux);
+    	    if (left && l1 == l) break; //salir si centro esta en u y 
+    	    int pos = (left ? cntr - l1 : cntr - l - l1 + 1);//calcula la posicion donde comienza la repeticion dependiendo de si el centro esta en u o en v
+    	    String aux=s.substring(pos,pos+l);//desde pos, hasta pos+longitud de lo que se repite, me da lo que se repite
+			repetitions.add(aux);//lo agrego al arraylist con todos los repetidos
     	}
 	}
 	
-	
+	/**
+	 * 
+	 * @param s string a buscar repeticiones
+	 * @param shift cuanto se debe shiftear 
+	 */
 	public static  void find_repetitions(String s, int shift) {
     	int n = s.length();
     	if (n == 1){
@@ -135,17 +159,25 @@ public class LongestRepetition {
 
 		for (int cntr = 0; cntr < n; cntr++) {
         	int l, k1, k2;
-        	if (cntr < nu) {
-        	    l = nu - cntr;
-            	k1 = get_z(z1, nu - cntr);
-				k2 = get_z(z2, nv + 1 + cntr);
+        	if (cntr < nu) {//si el centro esta en u
+        	    l = nu - cntr;// 2*l es la longitud de posibles repeticiones, para cada centro
+            	k1 = get_z(z1, nu - cntr);//
+				k2 = get_z(z2, nv + 1 + cntr);//
         	}
-			else {
-            	l = cntr - nu + 1;
+			else {//si el centro esta en v
+            	l = cntr - nu + 1;//// 2*l es la longitud de posibles repeticiones, para cada centro
+            	/*Sea k1 el número más grande,
+            	 *  de modo que los primeros caracteres k1 
+            	 *  antes de la posición cntr coincidan con 
+            	 *  los últimos caracteres k1 en la cadena u*/
             	k1 = get_z(z3, nu + 1 + nv - 1 - (cntr - nu));
+            	/*Sea k2 el número más grande,
+            	 *  de modo que los caracteres k2 que comienzan
+            	 *   en la posición cntr coincidan con los primeros 
+            	 *   caracteres k2 en la cadena v*/
             	k2 = get_z(z4, (cntr - nu) + 1);
         	}
-        	if (k1 + k2 >= l){
+        	if (k1 + k2 >= l){//si encontre una posible repeticion
             	convert_to_repetitions(s, cntr < nu, cntr, l, k1, k2);
 			}
     	}
