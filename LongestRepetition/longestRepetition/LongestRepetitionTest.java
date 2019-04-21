@@ -43,6 +43,17 @@ class LongestRepetitionTest {
 		System.out.println(LongestRepetition.repetition(text));
 	}//se espera que devuelva ""
 	
+	@Test
+	void testRepetition7() {
+		String text="(Karl o Carl Friedrich Gauss; Brunswick, actualactual Alemania, 1777 - Gotinga, id., 1855) Matemático, físico y astrónomo alemán. Nacidonacido en el seno de unauna familiafamilia humilde humilde, desde muy tempranatemprana edad Karl Friedrich Gauss Gauss dio muestrasmuestras de una prodigiosaprodigiosa capacidad capacidad para laslas matemáticas";
+		System.out.println(LongestRepetition.repetition(text));
+	}//se espera que devuelva "prodigiosa"
+	
+	@Test
+	void testRepetition8() {
+		String text="Alan Turing fuefue un brillantebrillante matemático, criptoanalista criptoanalista e informático teórico nacido nacido el veintitrés de Juniojunio de 1912 en Maida Vale un distrito residencial al oeste oeste de Londres. Turing, ademas ademas de ser un brillante científico era homosexual, lo cualcual le costó lala vidavida el siete dede junio de 1954.\"; ";
+		System.out.println(LongestRepetition.repetition(text));
+	}//se espera que devuelva "criptoanalista"
 	
 	@Test
 	void testRepetitionDc1() {
@@ -79,5 +90,17 @@ class LongestRepetitionTest {
 		String text="hola que tal hola";
 		System.out.println(LongestRepetition.repetitionDc(text));
 	}//se espera que devuelva ""
+	
+	@Test
+	void testRepetitionDc7() {
+		String text="(Karl o Carl Friedrich Gauss; Brunswick, actualactual Alemania, 1777 - Gotinga, id., 1855) Matemático, físico y astrónomo alemán. Nacidonacido en el seno de unauna familiafamilia humilde humilde, desde muy tempranatemprana edad Karl Friedrich Gauss Gauss dio muestrasmuestras de una prodigiosa prodigiosa capacidad capacidad para laslas matemáticas";
+		System.out.println(LongestRepetition.repetitionDc(text));
+	}//se espera que devuelva "prodigiosa"
+	
+	@Test
+	void testRepetitionDc8() {
+		String text="Alan Turing fuefue un brillantebrillante matemático, criptoanalista criptoanalista e informático teórico nacido nacido el veintitrés de Juniojunio de 1912 en Maida Vale un distrito residencial al oeste oeste de Londres. Turing, ademas ademas de ser un brillante científico era homosexual, lo cualcual le costó lala vidavida el siete dede junio de 1954.\"; ";
+		System.out.println(LongestRepetition.repetitionDc(text));
+	}//se espera que devuelva "criptoanalista"
 
 }

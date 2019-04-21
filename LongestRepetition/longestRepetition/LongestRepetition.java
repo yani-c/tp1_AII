@@ -67,7 +67,7 @@ public class LongestRepetition {
 	}
 	
 	
-	
+	//Array donde se guardan todas las cadenas que se repiten concecutivamente
 	static ArrayList<String> repetitions= new ArrayList<String>();
 	
 
@@ -97,7 +97,7 @@ public class LongestRepetition {
 			s [0… limit − iniLimit] coinciden. Esto significa que como una aproximación inicial para z [i] podemos tomar el valor ya calculadopara el segmento correspondiente s [0… limit − i], 
 			y eso es z [i − iniLimit]*/
 				iniLimit = i;
-				limit = i + z.get(i.intValue()) - 1;
+				limit = i + z.get(i.intValue()) - 1; 
         	}
     }
     return z;	
@@ -157,16 +157,28 @@ public class LongestRepetition {
     	find_repetitions(right, nLeft);//lamada recursiva con la segunda mitad
 	
 		ArrayList<Integer> z1 = z_function(reverseLeft);
+		/*array z1 que contiene en la i-esima posicion, la cantidad de elementos iguales a los ultimos de left comenzando desde la posicion i de reverseLeft*/
 		ArrayList<Integer> z2 = z_function(right + '#' + left);
+		/*array z2 que contiene en la i-esima posicion, la cantidad de elementos iguales a los primeros de right+'#'+left comenzando desde la posicion i de right+'#'+left*/
 		ArrayList<Integer> z3 = z_function(reverseLeft + '#' + reverseRight);
+		/*array z3 que contiene en la i-esima posicion, la cantidad de elementos iguales a los ultimos de left+'#'+ultimos de right comenzando desde la posicion i de reverseLeft + '#' + reverseRight*/
 		ArrayList<Integer> z4 = z_function(right);
+		/*array z4 que contiene en la i-esima posicion, la cantidad de elementos iguales a los primeros de right comenzando desde la posicion i de right*/
 
 		for (int cntr = 0; cntr < n; cntr++) {
         	int longitud, k1, k2;
-        	if (cntr < nLeft) {//si el centro esta en left
+        	if (cntr < nLeft) {//si el centro esta en left 
         	    longitud = nLeft - cntr;// 2*longitud es la longitud de posibles repeticiones, para cada centro
-            	k1 = get_z(z1, nLeft - cntr);//
-				k2 = get_z(z2, nRight + 1 + cntr);//
+            	k1 = get_z(z1, nLeft - cntr);
+            	/*Sea k1 el número más grande,
+            	 *  de modo que los primeros caracteres k1 
+            	 *  antes de la posición cntr coincidan con 
+            	 *  los últimos caracteres k1 en la cadena left*/
+				k2 = get_z(z2, nRight + 1 + cntr);
+				/*Sea k2 el número más grande,
+            	 *  de modo que los caracteres k2 que comienzan
+            	 *   en la posición cntr coincidan con los primeros 
+            	 *   caracteres k2 en la cadena right*/
         	}
 			else {//si el centro esta en right
             	longitud = cntr - nLeft + 1;// 2*longitud es la longitud de posibles repeticiones, para cada centro
@@ -182,7 +194,7 @@ public class LongestRepetition {
             	k2 = get_z(z4, (cntr - nLeft) + 1);
         	}
         	if (k1 + k2 >= longitud){//si encontre una posible repeticion
-            	convert_to_repetitions(s, cntr < nLeft, cntr, longitud, k1, k2);//la guarda
+            	convert_to_repetitions(s, cntr < nLeft, cntr, longitud, k1, k2);//se fija si realmente es, y si es la guarda
 			}
     	}
 	}
